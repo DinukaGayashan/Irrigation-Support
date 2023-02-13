@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:irrigation_support/screens/unit_converter.dart';
 
 class MainMenu extends StatelessWidget {
   const MainMenu({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class MainMenu extends StatelessWidget {
         body: MaterialButton(
           color: Colors.teal,
           onPressed: () {
-
+            Navigator.pushNamed(context, UnitConverter.id);
           },
         ),
       ),
