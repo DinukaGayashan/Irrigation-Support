@@ -11,5 +11,5 @@ Map<String,double> lengthUnitValues={
 };
 
 double getConvertedLengthValue(double value, String initialUnit, String finalUnit){
-  return value*lengthUnitValues[finalUnit]!/lengthUnitValues[initialUnit]!;
+  return value*(lengthUnitValues[finalUnit]!/lengthUnitValues[initialUnit]!);
 }

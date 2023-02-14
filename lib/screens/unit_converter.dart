@@ -11,20 +11,23 @@ class UnitConverter extends StatefulWidget {
 }
 
 class _UnitConverterState extends State<UnitConverter> {
-  final fromValueController=TextEditingController();
-  final toValueController=TextEditingController();
-
+  final fromValueController = TextEditingController();
+  final toValueController = TextEditingController();
+  String fromUnit = lengthUnits[0];
+  String toUnit = lengthUnits[1];
+  String fromValue = '1';
+  late String toValue =
+      getConvertedLengthValue(double.parse(fromValue), fromUnit, toUnit)
+          .toString();
 
   @override
   Widget build(BuildContext context) {
-
-
-    String fromUnit = lengthUnits[0];
-    String toUnit = lengthUnits[1];
-    double fromValue=1.0;
-    late double toValue=getConvertedLengthValue(fromValue, fromUnit, toUnit);
-    fromValueController.text=fromValue.toString();
-    toValueController.text=toValue.toString();
+    fromValueController.text = fromValue.toString();
+    toValueController.text = toValue.toString();
+    fromValueController.selection = TextSelection.fromPosition(
+        TextPosition(offset: fromValueController.text.length));
+    toValueController.selection = TextSelection.fromPosition(
+        TextPosition(offset: toValueController.text.length));
 
     return SafeArea(
       child: Scaffold(
@@ -50,7 +53,11 @@ class _UnitConverterState extends State<UnitConverter> {
                     onChanged: (value) {
                       setState(() {
                         fromUnit = value!;
-                        toValue;
+                        toValue = getConvertedLengthValue(
+                                double.tryParse(fromValue) ?? 0.0,
+                                fromUnit,
+                                toUnit)
+                            .toString();
                       });
                     }),
                 TextField(
@@ -58,9 +65,13 @@ class _UnitConverterState extends State<UnitConverter> {
                   textAlign: TextAlign.right,
                   keyboardType: const TextInputType.numberWithOptions(),
                   onChanged: (value) {
+                    fromValue = value;
                     setState(() {
-                      fromValue=double.parse(value);
-                      toValue=getConvertedLengthValue(fromValue, fromUnit, toUnit);
+                      toValue = getConvertedLengthValue(
+                              double.tryParse(fromValue) ?? 0.0,
+                              fromUnit,
+                              toUnit)
+                          .toString();
                     });
                   },
                 ),
@@ -75,7 +86,11 @@ class _UnitConverterState extends State<UnitConverter> {
                     onChanged: (value) {
                       setState(() {
                         toUnit = value!;
-                        toValue;
+                        toValue = getConvertedLengthValue(
+                                double.tryParse(fromValue) ?? 0.0,
+                                fromUnit,
+                                toUnit)
+                            .toString();
                       });
                     }),
                 TextField(
@@ -83,9 +98,11 @@ class _UnitConverterState extends State<UnitConverter> {
                   textAlign: TextAlign.right,
                   keyboardType: const TextInputType.numberWithOptions(),
                   onChanged: (value) {
+                    toValue = value;
                     setState(() {
-                      toValue=double.parse(value);
-                      fromValue=getConvertedLengthValue(toValue, toUnit, fromUnit);
+                      fromValue = getConvertedLengthValue(
+                              double.tryParse(toValue) ?? 0.0, toUnit, fromUnit)
+                          .toString();
                     });
                   },
                 ),
