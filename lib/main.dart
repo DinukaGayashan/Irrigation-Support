@@ -14,10 +14,12 @@ class IrrigationSupport extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Irrigation Support',
-      theme: ThemeData.dark().copyWith(
+      theme: ThemeData(
         useMaterial3: true,
         primaryColor: kBaseColor1,
         scaffoldBackgroundColor: kBackgroundColor,
+        brightness: Brightness.dark,
+        fontFamily: 'NotoSans',
       ),
       initialRoute: MainMenu.id,
       routes: {

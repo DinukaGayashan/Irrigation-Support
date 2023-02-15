@@ -13,12 +13,14 @@ class MainMenu extends StatelessWidget {
           title: const Text(
               'Main Menu',
           ),
+          centerTitle: true,
         ),
         body: MaterialButton(
           color: Colors.teal,
           onPressed: () {
             Navigator.pushNamed(context, UnitConverter.id);
           },
+          child: const Text('Unit Converter'),
         ),
       ),
     );

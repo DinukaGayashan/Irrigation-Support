@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:irrigation_support/constants.dart';
 
-class UnitConverter extends StatefulWidget {
-  const UnitConverter({Key? key}) : super(key: key);
-  static const String id = 'UnitConverter';
+class LengthUnitConverter extends StatefulWidget {
+  const LengthUnitConverter({Key? key}) : super(key: key);
 
   @override
-  State<UnitConverter> createState() => _UnitConverterState();
+  State<LengthUnitConverter> createState() => _LengthUnitConverterState();
 }
 
-class _UnitConverterState extends State<UnitConverter> {
+class _LengthUnitConverterState extends State<LengthUnitConverter> {
   final fromValueController = TextEditingController();
   final toValueController = TextEditingController();
   String fromUnit = lengthUnits[0];
@@ -30,94 +29,122 @@ class _UnitConverterState extends State<UnitConverter> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Unit Converter',
-          ),
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                const Text('Length'),
-                DropdownButton(
-                    value: fromUnit,
-                    items: lengthUnits.map((String items) {
-                      return DropdownMenuItem(
-                        value: items,
-                        child: Text(items),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        fromUnit = value!;
-                        toValue = getConvertedLengthValue(
-                                double.tryParse(fromValue) ?? 0.0,
-                                fromUnit,
-                                toUnit)
-                            .toString();
-                      });
-                    }),
-                TextField(
-                  controller: fromValueController,
-                  textAlign: TextAlign.right,
-                  keyboardType: const TextInputType.numberWithOptions(),
-                  autofocus: true,
-                  onTap: (() {
-                    fromValueController.selection = TextSelection(
-                        baseOffset: 0,
-                        extentOffset: fromValueController.value.text.length);
-                  }),
+        body: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              DropdownButton(
+                  value: fromUnit,
+                  items: lengthUnits.map((String items) {
+                    return DropdownMenuItem(
+                      value: items,
+                      child: Text(items),
+                    );
+                  }).toList(),
                   onChanged: (value) {
-                    fromValue = value;
                     setState(() {
+                      fromUnit = value!;
                       toValue = getConvertedLengthValue(
                               double.tryParse(fromValue) ?? 0.0,
                               fromUnit,
                               toUnit)
                           .toString();
                     });
-                  },
-                ),
-                DropdownButton(
-                    value: toUnit,
-                    items: lengthUnits.map((String items) {
-                      return DropdownMenuItem(
-                        value: items,
-                        child: Text(items),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        toUnit = value!;
-                        toValue = getConvertedLengthValue(
-                                double.tryParse(fromValue) ?? 0.0,
-                                fromUnit,
-                                toUnit)
-                            .toString();
-                      });
-                    }),
-                TextField(
-                  controller: toValueController,
-                  textAlign: TextAlign.right,
-                  keyboardType: const TextInputType.numberWithOptions(),
-                  onTap: (() {
-                    toValueController.selection = TextSelection(
-                        baseOffset: 0,
-                        extentOffset: toValueController.value.text.length);
                   }),
+              Row(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width-80,
+                    child: TextField(
+                      controller: fromValueController,
+                      textAlign: TextAlign.right,
+                      keyboardType: const TextInputType.numberWithOptions(),
+                      autofocus: true,
+                      style: const TextStyle(
+                        fontSize: 20,
+                      ),
+                      onTap: (() {
+                        fromValueController.selection = TextSelection(
+                            baseOffset: 0,
+                            extentOffset: fromValueController.value.text.length);
+                      }),
+                      onChanged: (value) {
+                        fromValue = value;
+                        setState(() {
+                          toValue = getConvertedLengthValue(
+                                  double.tryParse(fromValue) ?? 0.0,
+                                  fromUnit,
+                                  toUnit)
+                              .toString();
+                        });
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: 40,
+                    child: Text(
+                      lengthUnitSigns[fromUnit].toString(),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 30,),
+              DropdownButton(
+                  value: toUnit,
+                  items: lengthUnits.map((String items) {
+                    return DropdownMenuItem(
+                      value: items,
+                      child: Text(items),
+                    );
+                  }).toList(),
                   onChanged: (value) {
-                    toValue = value;
                     setState(() {
-                      fromValue = getConvertedLengthValue(
-                              double.tryParse(toValue) ?? 0.0, toUnit, fromUnit)
+                      toUnit = value!;
+                      toValue = getConvertedLengthValue(
+                              double.tryParse(fromValue) ?? 0.0,
+                              fromUnit,
+                              toUnit)
                           .toString();
                     });
-                  },
-                ),
-              ],
-            ),
+                  }),
+              Row(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width-80,
+                    child: TextField(
+                      controller: toValueController,
+                      textAlign: TextAlign.right,
+                      keyboardType: const TextInputType.numberWithOptions(),
+                      style: const TextStyle(
+                        fontSize: 20,
+                      ),
+                      onTap: (() {
+                        toValueController.selection = TextSelection(
+                            baseOffset: 0,
+                            extentOffset: toValueController.value.text.length);
+                      }),
+                      onChanged: (value) {
+                        toValue = value;
+                        setState(() {
+                          fromValue = getConvertedLengthValue(
+                                  double.tryParse(toValue) ?? 0.0, toUnit, fromUnit)
+                              .toString();
+                        });
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: 40,
+                    child: Text(
+                      lengthUnitSigns[toUnit].toString(),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                ],
+              ),
+            ],
           ),
         ),
       ),
